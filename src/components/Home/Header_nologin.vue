@@ -1,6 +1,5 @@
 <template>
-    <v-app-bar color="white" ight app clipped-left elevation="3" class="font-weight-bold">
-        <v-app-bar-nav-icon @click="toggleSideMenu"></v-app-bar-nav-icon>
+    <v-app-bar color="white" light app clipped-left elevation="3" class="font-weight-bold">
       <router-link style="text-decoration: none;" :to="{ name: 'Home' }" class="ms-4 indigo--text">
         <v-toolbar-title>Slack Clone</v-toolbar-title>
       </router-link>
@@ -14,12 +13,8 @@
 
 <script>
 
-import { mapActions } from 'vuex';
 export default {
-  methods: {
-    ...mapActions(['toggleSideMenu'])
-  },
   components: {
   }
-}
+};
 </script>

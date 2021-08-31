@@ -1,27 +1,31 @@
 <template>
   <v-app :style="{ background: $vuetify.theme.themes.light.background }">
-    <Header/>
-    <NavigationDrawer/>
+    <Header_nologin v-if="!$store.state.currentUser"/>
+    <Footer v-if="!$store.state.currentUser"/>
+    
+    <AppHeader v-if="!!$store.state.currentUser"/>
+    <NavigationDrawer v-if="!!$store.state.currentUser"/>
+    
     <v-main><router-view/></v-main>
-    <Footer/>
   </v-app>
 </template>
 
 <script>
-import Header from './components/Home/Header.vue';
 import Footer from './components/Home/Footer.vue';
-import NavigationDrawer from './components/Home/NavigationDrawer.vue';
+import NavigationDrawer from './components/App/NavigationDrawer.vue';
+import Header_nologin from './components/Home/Header_nologin.vue';
+import AppHeader from './components/App/AppHeader.vue';
 
 export default {
   name: 'App',
 
   data: () => ({
-    //
   }),
   components: {
-    Header,
     Footer,
-    NavigationDrawer
-  }
+    NavigationDrawer,
+    Header_nologin,
+    AppHeader
+  },
 };
 </script>

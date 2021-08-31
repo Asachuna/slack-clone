@@ -5,16 +5,23 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    isSideMenuOpen: false
+    isSideMenuOpen: true,
+    currentUser: ""
   },
   mutations: {
     toggleSideMenu(state) {
       state.isSideMenuOpen = !state.isSideMenuOpen;
     },
+    setUser(state, val) {
+      state.currentUser = val;
+    },
   },
   actions: {
     toggleSideMenu({ commit }) {
       commit('toggleSideMenu');
+    },
+    setUser({ commit }, user) {
+      commit('setUser', user);
     },
   },
   modules: {
