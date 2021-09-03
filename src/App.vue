@@ -1,10 +1,10 @@
 <template>
-  <v-app :style="{ background: $vuetify.theme.themes.light.background }">
-    <Header_nologin v-if="!$store.state.currentUser"/>
-    <Footer v-if="!$store.state.currentUser"/>
+  <v-app>
+    <Header_nologin v-if="!currentUser"/>
+    <Footer v-if="!currentUser"/>
     
-    <AppHeader v-if="!!$store.state.currentUser"/>
-    <NavigationDrawer v-if="!!$store.state.currentUser"/>
+    <AppHeader v-if="!!currentUser"/>
+    <NavigationDrawer v-if="!!currentUser" :currentUser="currentUser" :channels="channels" :users="users"/>
     
     <v-main><router-view/></v-main>
   </v-app>
@@ -15,17 +15,54 @@ import Footer from './components/Home/Footer.vue';
 import NavigationDrawer from './components/App/NavigationDrawer.vue';
 import Header_nologin from './components/Home/Header_nologin.vue';
 import AppHeader from './components/App/AppHeader.vue';
+import firebase from "firebase/compat/app";
+import'firebase/compat/database';
 
 export default {
   name: 'App',
 
   data: () => ({
+    currentUser: null,
+    users: [],
+    channels: []
   }),
+  
   components: {
     Footer,
     NavigationDrawer,
     Header_nologin,
     AppHeader
   },
+  
+  created() {
+    firebase.auth().onAuthStateChanged((user) =>{
+      if(user){
+        this.currentUser = user;
+      }else{
+        this.currentUser = null;
+      }
+    });
+    firebase
+      .database()
+      .ref("users")
+      .on("child_added", snapshot => {
+        this.users.push(snapshot.val());
+      });
+    firebase
+      .database()
+      .ref("channel")
+      .on("child_added", snapshot => {
+        this.channels.push(snapshot.val());
+      });
+  },
+  
+  //後始末
+  beforeDestroy() {
+    firebase
+      .database()
+      .ref("users")
+      .off();
+  }
+  
 };
 </script>

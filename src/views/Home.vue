@@ -1,22 +1,25 @@
 <template>
-<v-container>
-  サインイン中
-  <v-btn @click="signOut">サインアウト</v-btn>
-</v-container>
+  <div style="height: 100%;">
+    <ChatArea v-if="!!$store.state.channelState"/>
+    
+    <div style="position: sticky; bottom: 0px;">
+      <ChatForm v-if="!!$store.state.channelState"/>
+    </div>
+  </div>
 </template>
 
 <script>
-import firebase from "firebase/compat/app";
+import ChatArea from "../components/App/ChatArea.vue";
+import ChatForm from '../components/App/ChatForm.vue';
 import "firebase/compat/auth";
 
 export default {
+  
   name: 'Home',
-
-  methods: {
-    signOut() {
-      firebase.auth().signOut();
-      this.$router.push("/signin");
-    }
-  }
+  
+  components: {
+    ChatArea,
+    ChatForm
+  },
 };
 </script>
