@@ -12,6 +12,9 @@
 import ChatArea from "../components/App/ChatArea.vue";
 import ChatForm from '../components/App/ChatForm.vue';
 import "firebase/compat/auth";
+import firebase from "firebase/compat/app";
+import'firebase/compat/database';
+
 
 export default {
   
@@ -21,5 +24,24 @@ export default {
     ChatArea,
     ChatForm
   },
+  
+  mounted() {
+    firebase
+      .database()
+      .ref(".info/connected")
+      .on("value", snapshot => {
+        if (snapshot.val() === true) {
+          let connectionRef = firebase
+            .database()
+            .ref("connections")
+            .push();
+          connectionRef.onDisconnect().remove();
+          connectionRef.set({
+            user_id: this.$store.state.currentUser.uid,
+            key: connectionRef.key
+          });
+        }
+      });
+  }
 };
 </script>

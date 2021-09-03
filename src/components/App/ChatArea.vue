@@ -48,24 +48,38 @@ export default {
     messages() {
       let messages = [];
       
-      const sendTo = this.$store.state.currentChannel;
-      const currentUser = this.$store.state.currentUser;
-      let channel_id = "";
-      if (currentUser.uid > sendTo.user_id){
-        channel_id = currentUser.uid + "-" + sendTo.user_id;
-      } else {
-        channel_id = sendTo.user_id + "-" + currentUser.uid;
+      if (this.$store.state.currentChannel.state === "DirectMail") {
+        const sendTo = this.$store.state.currentChannel;
+        const currentUser = this.$store.state.currentUser;
+        let channel_id = "";
+        
+        if (currentUser.uid > sendTo.user_id){
+          channel_id = currentUser.uid + "-" + sendTo.user_id;
+        } else {
+          channel_id = sendTo.user_id + "-" + currentUser.uid;
+        }
+        
+        firebase
+          .database()
+          .ref("messages")
+          .child(channel_id)
+          .on("child_added", snapshot => {
+            messages.push(snapshot.val());
+            this.reload = !this.reload;
+          });
+      } else if (this.$store.state.channelState === "Channel") {
+        const channel_id = this.$store.state.currentChannel.channel_id;
+        firebase
+          .database()
+          .ref("messages")
+          .child(channel_id)
+          .on("child_added", snapshot => {
+            messages.push(snapshot.val());
+            this.reload = !this.reload;
+          });
       }
       
-      firebase
-        .database()
-        .ref("messages")
-        .child(channel_id)
-        .on("child_added", snapshot => {
-          messages.push(snapshot.val());
-          this.reload = !this.reload;
-        });
-
+      
       return messages;
     },
     pageHeight () {

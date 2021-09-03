@@ -19,13 +19,20 @@
 
 <script>
 import firebase from "firebase/compat/app";
+import'firebase/compat/database';
 
 export default {
   
   methods: {
     signOut() {
       firebase.auth().signOut();
+      
+      firebase
+        .database()
+        .ref("connections")
+        .remove();
       this.$router.push("/signin");
+  
     },
     getAvatar(email) {
       return `https://i.pravatar.cc/150?u=${email}`;

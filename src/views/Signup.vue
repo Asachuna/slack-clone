@@ -53,6 +53,7 @@
                 
                 <div class="text-center">
                   <span class="caption">ユーザー名, メールアドレスは公開されます</span>
+                  <span class="caption d-block">架空のメールアドレスでも登録可能です(例：aiueo@example.com)</span>
                 </div>
                 
                 
@@ -110,9 +111,6 @@ export default {
               user_id: user.uid,
               name: this.name,
               email: this.email.toLowerCase()
-            })
-            .then(() => {
-              this.$router.push("/");
             })
             .catch(e => {
               console.log(e);

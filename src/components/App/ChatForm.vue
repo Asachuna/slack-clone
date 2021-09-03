@@ -77,11 +77,17 @@ export default {
       if (!sendTo) { 
         return null;
       }
-
-      if (currentUser.uid > sendTo.user_id){
-        return currentUser.uid + "-" + sendTo.user_id;
+      
+      if(sendTo.state === "DirectMail") {
+        if (currentUser.uid > sendTo.user_id){
+          return currentUser.uid + "-" + sendTo.user_id;
+        } else {
+          return sendTo.user_id + "-" + currentUser.uid;
+        }
+      } else if (sendTo.state === "Channel") {
+        return sendTo.channel_id;
       } else {
-        return sendTo.user_id + "-" + currentUser.uid;
+        return null;
       }
     }
   }

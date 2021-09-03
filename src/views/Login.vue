@@ -81,7 +81,6 @@ export default {
         .signInWithEmailAndPassword(this.email, this.password)
         .then(response => {
           console.log(response);
-          this.$router.push("/");
         })
         .catch(() => {
           this.password = "";

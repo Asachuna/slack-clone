@@ -35,26 +35,25 @@
             <CreateChannel/>
           </v-subheader>
           
-          <v-list-item nav dense v-for="channel in channels" :key="channel.id" class="font-weight-bold grey--text text--lighten-2">
-            <v-list-item-group class="pr-3">
-              <v-list-item
-                nav
-                dense
-                v-for="channel in channels"
-                :key="channel.id"
-                class="grey--text 
-                text--lighten-2"
-              >
-                 <v-list-item-title>#{{channel.name}}</v-list-item-title>
-              </v-list-item>
-            </v-list-item-group>
-          </v-list-item>
+          <v-list-item-group class="pr-3" v-model="channelSelect">
+            <v-list-item
+              nav
+              dense
+              v-for="channel in channels"
+              :key="channel.id"
+              class="grey--text 
+              text--lighten-2"
+              @click="setChannel(channel)"
+            >
+               <v-list-item-title>#{{channel.name}}</v-list-item-title>
+            </v-list-item>
+          </v-list-item-group>
           
           <v-subheader class="font-weight-bold grey--text text--lighten-2">
             ダイレクトメッセージ
           </v-subheader>
           
-          <v-list-item-group class="pr-3">
+          <v-list-item-group class="pr-3" v-model="directMessageSelect">
             <v-list-item
               nav
               dense
@@ -65,12 +64,17 @@
               @click="setDirectMail(user)"
             >
               <v-avatar size="25" class="me-2" v-show="avator_url">
-                <img
+                <v-img
                   :src="getAvatar(user)"
                   alt="avator"
-                >
+                ></v-img>
               </v-avatar>
               <v-list-item-title>{{user.name}}</v-list-item-title>
+              
+              <v-icon color="green" style="font-size: 10px;">
+                mdi-circle
+              </v-icon>
+              
             </v-list-item>
           </v-list-item-group>
           
@@ -101,6 +105,8 @@ export default {
   
   data() {
     return{
+      channelSelect: null,
+      directMessageSelect: null
     };
   },
   
@@ -109,6 +115,8 @@ export default {
       return `https://i.pravatar.cc/150?u=${user.email}`;
     },
     setDirectMail(user) {
+      this.channelSelect = null;
+      
       const channel = {
         state: "DirectMail",
         user_id: user.user_id,
@@ -116,6 +124,16 @@ export default {
         email: user.email
       };
       store.dispatch('setChannel', channel);
+    },
+    setChannel(channel) {
+      this.directMessageSelect = null;
+      
+      const currentChannel = {
+        name: channel.name,
+        state: "Channel",
+        channel_id: channel.id,
+      };
+      store.dispatch('setChannel', currentChannel);
     }
   },
   
@@ -128,9 +146,5 @@ export default {
       }
     }
   },
-  
-  created() {
-    console.log(this.channels);
-  }
 };
 </script>
