@@ -10,6 +10,7 @@ export default new Vuex.Store({
     isSideMenuOpen: true,
     currentUser: "",
     currentUserName: "",
+    currentUserId: "",
     currentChannel: null,
     channelState: null,
     connectionId: null,
@@ -28,9 +29,9 @@ export default new Vuex.Store({
         firebase
           .database()
           .ref(`users/${user.uid}`)
-          .child("name")
           .on("value", snapshot => {
-            state.currentUserName = snapshot.val();
+            state.currentUserName = snapshot.val().name;
+            state.currentUserId = snapshot.val().user_id;
           });
       } else {
         state.currentUserName = "";
@@ -44,6 +45,7 @@ export default new Vuex.Store({
     
     setConnectionId(state, val) {
       state.connectionId = val;
+      console.log(state.connectionId);
     },
     setConnections(state, val) {
       state.connections = val;

@@ -20,6 +20,7 @@
 <script>
 import firebase from "firebase/compat/app";
 import'firebase/compat/database';
+import store from '../../store';
 
 export default {
   
@@ -32,6 +33,7 @@ export default {
         .ref("connections")
         .child(this.$store.state.connectionId)
         .remove();
+      store.dispatch('setConnectionId', null);
       this.$router.push("/signin");
   
     },

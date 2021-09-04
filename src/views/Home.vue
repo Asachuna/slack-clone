@@ -51,7 +51,7 @@ export default {
         }
       });
 
-    //ユーザーのログイン/ログアウトを監視
+    //ユーザーのログインを監視
     let connections = [];
     
     firebase
@@ -69,6 +69,8 @@ export default {
           }
         }
       });
+    
+    //ユーザーのログアウトを監視
     firebase
       .database()
       .ref("connections")
@@ -91,6 +93,7 @@ export default {
     store.dispatch('setConnections', connections);
   },
   
+  //後始末
   beforeDestroy() {
     firebase
       .database()
@@ -101,6 +104,19 @@ export default {
       .database()
       .ref("connections")
       .off();
+  },
+  
+  methods: {
+    checkConnectionExist() {
+      const connection = this.$store.state.connections.find(
+        connection => connection.user_id === this.$store.state.currentUser.user_id
+      );
+      if(connection) {
+        return true;
+      } else {
+        return false;
+      }
+    }
   }
 };
 </script>

@@ -53,7 +53,9 @@ export default {
       const key_id = newMessage.key;
       
       const time_now = new Date();
-      const time_now_str = `${time_now.getFullYear()}/${time_now.getMonth()}/${time_now.getDate()} ${time_now.getHours()}:${time_now.getMinutes()}`;
+      const hourStr   = time_now.getHours().toString().padStart(2, '0');
+      const minuteStr = time_now.getMinutes().toString().padStart(2, '0');
+      const time_now_str = `${time_now.getFullYear()}/${time_now.getMonth()}/${time_now.getDate()} ${hourStr}:${minuteStr}`;
       
       newMessage.set({
         key: key_id,

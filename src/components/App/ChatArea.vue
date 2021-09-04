@@ -18,9 +18,7 @@
               <v-list-item-title class="body-1 mt-1">
                 <span class="font-weight-bold body-2">{{message.name}}</span>
                 <span class="gray--text caption ms-5">{{message.postTime}}</span>
-                <p class="mt-1">
-                  {{message.content}}
-                </p>
+                <p class="text-pre-wrap mt-1">{{message.content}}</p>
               </v-list-item-title>
             </v-list-item-content>
           </v-list-item>
@@ -95,7 +93,7 @@ export default {
       const element = document.documentElement;
       const bottom = element.scrollHeight - element.clientHeight;
       window.scroll(0, bottom);
-    }
+    },
   },
   
   updated() {
