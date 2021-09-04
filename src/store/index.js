@@ -11,7 +11,9 @@ export default new Vuex.Store({
     currentUser: "",
     currentUserName: "",
     currentChannel: null,
-    channelState: null
+    channelState: null,
+    connectionId: null,
+    connections: null
   },
   mutations: {
     
@@ -40,6 +42,13 @@ export default new Vuex.Store({
       state.channelState = val.state;
     },
     
+    setConnectionId(state, val) {
+      state.connectionId = val;
+    },
+    setConnections(state, val) {
+      state.connections = val;
+    },
+    
   },
   actions: {
     toggleSideMenu({ commit }) {
@@ -50,6 +59,12 @@ export default new Vuex.Store({
     },
     setChannel({ commit }, channel) {
       commit('setChannel', channel);
+    },
+    setConnectionId({ commit }, id) {
+      commit('setConnectionId', id);
+    },
+    setConnections({ commit }, connections) {
+      commit('setConnections', connections);
     },
   },
   modules: {

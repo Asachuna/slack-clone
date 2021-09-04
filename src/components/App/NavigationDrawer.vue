@@ -69,11 +69,15 @@
                   alt="avator"
                 ></v-img>
               </v-avatar>
-              <v-list-item-title>{{user.name}}</v-list-item-title>
               
-              <v-icon color="green" style="font-size: 10px;">
+              <v-icon 
+                style="font-size: 10px;"
+                :class="{ 'green--text': user.onlineStatus === 'online', 'grey--text': user.onlineStatus === 'offline'}"
+                class="me-1"
+              >
                 mdi-circle
               </v-icon>
+              <v-list-item-title>{{user.name}}</v-list-item-title>
               
             </v-list-item>
           </v-list-item-group>
@@ -134,6 +138,7 @@ export default {
         channel_id: channel.id,
       };
       store.dispatch('setChannel', currentChannel);
+      console.log(this.users);
     }
   },
   

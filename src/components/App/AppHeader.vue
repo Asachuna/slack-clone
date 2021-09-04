@@ -30,6 +30,7 @@ export default {
       firebase
         .database()
         .ref("connections")
+        .child(this.$store.state.connectionId)
         .remove();
       this.$router.push("/signin");
   

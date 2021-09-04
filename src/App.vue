@@ -6,7 +6,7 @@
     <AppHeader v-if="!!currentUser"/>
     <NavigationDrawer v-if="!!currentUser" :currentUser="currentUser" :channels="channels" :users="users"/>
     
-    <v-main><router-view/></v-main>
+    <v-main><router-view :users="users"/></v-main>
   </v-app>
 </template>
 
@@ -46,7 +46,17 @@ export default {
       .database()
       .ref("users")
       .on("child_added", snapshot => {
-        this.users.push(snapshot.val());
+        let user = snapshot.val();
+        user.onlineStatus = "offline";
+        if (this.$store.state.connections) {
+          const connection = this.$store.state.connections.find(
+            connection => connection.user_id === user.user_id
+          );
+          if(connection) {
+            user.onlineStatus = "online";
+          }
+        }
+        this.users.push(user);
       });
     firebase
       .database()
@@ -61,6 +71,11 @@ export default {
     firebase
       .database()
       .ref("users")
+      .off();
+      
+    firebase
+      .database()
+      .ref(".info/connected")
       .off();
   }
   

@@ -110,7 +110,7 @@ export default {
             .set({
               user_id: user.uid,
               name: this.name,
-              email: this.email.toLowerCase()
+              email: this.email.toLowerCase(),
             })
             .catch(e => {
               console.log(e);
